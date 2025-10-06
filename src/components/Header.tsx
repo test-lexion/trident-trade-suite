@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,10 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, TrendingUp, Wallet, Trophy, Brain, BarChart3, Vote, Gift } from "lucide-react";
+import { ChevronDown, TrendingUp, Wallet, Trophy, Brain, BarChart3, Vote, Gift, Moon, Sun } from "lucide-react";
 
 export const Header = () => {
   const location = useLocation();
+  const { theme, setTheme } = useTheme();
   const [userAddress] = useState("0x7a3f8b2e4c9d1a5e");
 
   const isActive = (path: string) => location.pathname === path;
@@ -85,35 +87,47 @@ export const Header = () => {
           </nav>
         </div>
 
-        {/* User Menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="gap-2">
-              <span className="font-mono text-sm">{userAddress}</span>
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuItem asChild>
-              <Link to="/rewards" className="w-full cursor-pointer">
-                <Gift className="mr-2 h-4 w-4" />
-                My Rewards & Loyalty
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Wallet className="mr-2 h-4 w-4" />
-              Wallet Info
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <BarChart3 className="mr-2 h-4 w-4" />
-              Transaction History
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {/* Theme Toggle & User Menu */}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                <span className="font-mono text-sm">{userAddress}</span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuItem asChild>
+                <Link to="/rewards" className="w-full cursor-pointer">
+                  <Gift className="mr-2 h-4 w-4" />
+                  My Rewards & Loyalty
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Wallet className="mr-2 h-4 w-4" />
+                Wallet Info
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <BarChart3 className="mr-2 h-4 w-4" />
+                Transaction History
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-destructive">
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </header>
   );
