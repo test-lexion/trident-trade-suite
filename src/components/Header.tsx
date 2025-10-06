@@ -9,14 +9,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, TrendingUp, Wallet, Trophy, Brain, BarChart3, Vote, Gift, Moon, Sun } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { ChevronDown, TrendingUp, Wallet, BarChart3, Gift, Moon, Sun, Copy, CheckCircle } from "lucide-react";
 
 export const Header = () => {
   const location = useLocation();
   const { theme, setTheme } = useTheme();
   const [userAddress] = useState("0x7a3f8b2e4c9d1a5e");
+  const [walletDialogOpen, setWalletDialogOpen] = useState(false);
+  const [addressCopied, setAddressCopied] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
+
+  const copyAddress = () => {
+    navigator.clipboard.writeText(userAddress);
+    setAddressCopied(true);
+    setTimeout(() => setAddressCopied(false), 2000);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
@@ -113,7 +128,7 @@ export const Header = () => {
                   My Rewards & Loyalty
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setWalletDialogOpen(true)}>
                 <Wallet className="mr-2 h-4 w-4" />
                 Wallet Info
               </DropdownMenuItem>
@@ -129,6 +144,63 @@ export const Header = () => {
           </DropdownMenu>
         </div>
       </div>
+
+      {/* Wallet Info Dialog */}
+      <Dialog open={walletDialogOpen} onOpenChange={setWalletDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Wallet Info</DialogTitle>
+            <DialogDescription>Your wallet details and balances</DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <div className="text-sm text-muted-foreground">Wallet Address</div>
+              <div className="flex items-center gap-2">
+                <code className="flex-1 rounded bg-muted px-3 py-2 font-mono text-sm">
+                  {userAddress}
+                </code>
+                <Button size="sm" variant="outline" onClick={copyAddress}>
+                  {addressCopied ? (
+                    <CheckCircle className="h-4 w-4 text-success" />
+                  ) : (
+                    <Copy className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-border p-4 space-y-3">
+              <div className="text-sm font-semibold">Total Balance</div>
+              <div className="text-2xl font-bold font-mono-numeric">$45,234.56</div>
+              
+              <div className="space-y-2 pt-2 border-t border-border">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">USDC</span>
+                  <span className="font-mono-numeric">$25,000.00</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">BTC</span>
+                  <span className="font-mono-numeric">$16,062.63</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">ETH</span>
+                  <span className="font-mono-numeric">$4,104.90</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <Button className="flex-1" variant="outline">
+                Deposit
+              </Button>
+              <Button className="flex-1" variant="outline">
+                Withdraw
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };
