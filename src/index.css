@@ -120,6 +120,13 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  /* --- FONT SIZE MODIFICATION --- */
+  html {
+    /* Default is 16px. 14px is a common choice for data-dense interfaces. */
+    /* You can change this value to make fonts smaller or larger globally. */
+    font-size: 12px;
+  }
+  
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
