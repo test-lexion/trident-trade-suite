@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer"; // 1. Import the new Footer component
+import { Footer } from "@/components/Footer";
 import Futures from "./pages/Futures";
 import Spot from "./pages/Spot";
 import Options from "./pages/Options";
@@ -27,10 +27,8 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          {/* 2. Adjust the main div for a proper flex-column layout */}
           <div className="flex h-screen flex-col bg-background">
             <Header />
-            {/* 3. Wrap Routes in a <main> tag that fills the remaining space */}
             <main className="flex-1 overflow-y-auto">
               <Routes>
                 <Route path="/" element={<Futures />} />
@@ -46,7 +44,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
-            <Footer /> {/* 4. Add the Footer component at the end */}
+            <Footer />
           </div>
         </BrowserRouter>
       </TooltipProvider>
