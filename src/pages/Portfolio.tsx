@@ -25,17 +25,17 @@ const Portfolio = () => {
         <p className="text-muted-foreground">Manage your assets and collateral</p>
       </div>
 
-      {/* Portfolio Summary - Stacks on mobile */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <Card className="p-6">
+      {/* MODIFICATION: Changed grid to be 2 columns */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <Card className="p-4 md:p-6">
           <div className="text-sm text-muted-foreground mb-2">Total Value</div>
-          <div className="text-2xl font-bold font-mono-numeric">${totalValue.toLocaleString()}</div>
+          <div className="text-xl md:text-2xl font-bold font-mono-numeric">${totalValue.toLocaleString()}</div>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-4 md:p-6">
           <div className="text-sm text-muted-foreground mb-2">Unrealized PnL</div>
           <div className={cn(
-            "text-2xl font-bold font-mono-numeric flex items-center gap-2",
+            "text-xl md:text-2xl font-bold font-mono-numeric flex items-center gap-2",
             unrealizedPnL >= 0 ? "text-success" : "text-danger"
           )}>
             {unrealizedPnL >= 0 ? <TrendingUp className="h-5 w-5" /> : <TrendingDown className="h-5 w-5" />}
@@ -43,17 +43,17 @@ const Portfolio = () => {
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-4 md:p-6">
           <div className="text-sm text-muted-foreground mb-2">Used Margin</div>
-          <div className="text-2xl font-bold font-mono-numeric">${usedMargin.toLocaleString()}</div>
+          <div className="text-xl md:text-2xl font-bold font-mono-numeric">${usedMargin.toLocaleString()}</div>
           <div className="text-xs text-muted-foreground mt-1">
             {((usedMargin / totalValue) * 100).toFixed(1)}% utilized
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-4 md:p-6">
           <div className="text-sm text-muted-foreground mb-2">Available Margin</div>
-          <div className="text-2xl font-bold font-mono-numeric text-success">${availableMargin.toLocaleString()}</div>
+          <div className="text-xl md:text-2xl font-bold font-mono-numeric text-success">${availableMargin.toLocaleString()}</div>
         </Card>
       </div>
 
